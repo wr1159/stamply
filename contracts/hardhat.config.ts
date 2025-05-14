@@ -19,13 +19,14 @@ const config: HardhatUserConfig = {
             },
             // Uncomment to deploy to a local node using the node binary
             // nodeConfig: {
-            //     nodeBinaryPath: '/Users/utkarshbhardwaj/Desktop/Projects/UtkarshBhardwaj007/hardhat-polkadot-example/binaries/substrate-node',
+            //     nodeBinaryPath:
+            //         "/Users/weirong/Developer/consensus-2025/contracts/binaries/substrate-node",
             //     rpcPort: 8000,
             //     dev: true,
             // },
             adapterConfig: {
                 adapterBinaryPath:
-                    "/Users/utkarshbhardwaj/Desktop/Projects/UtkarshBhardwaj007/hardhat-polkadot-example/binaries/eth-rpc",
+                    "/Users/weirong/Developer/consensus-2025/contracts/binaries/eth-rpc",
                 dev: true,
             },
         },

@@ -3,11 +3,13 @@
 Stamply turns any NFC sticker at a landmark into a *free* on-chain “stamp”.  
 Users open the Stamply mobile app, tap a plaque, and an NFT for that place lands in their wallet in ~6 s — **with zero gas paid by the user**.  
 All contracts live on **Polkadot Hub’s native EVM**, the backend sponsors fees, and the app is built with **Expo + React-Native NFC**.
+No DOT required from the user — perfect for first-time visitors.
 
 ---
 
 ### 🗂 Monorepo structure
 
+```
 stamply/
 │
 ├─ contract/         # Solidity + Hardhat for Polkadot Hub
@@ -23,6 +25,8 @@ stamply/
 └─ frontend/         # React-Native + Expo dev-client
     ├─ App.tsx                    # NFC scan → fetch('/api/claim')
     └─ screens/Leaderboard.tsx    # live polkadot-js WS event stream (⬇️Low Priority Target)
+```
+
 ---
 
 ### ⚙️ Contract layer (`/contract`)
@@ -79,8 +83,7 @@ expo start --dev-client
 2. **Backend** signs & pays the extrinsic.  
 3. **Polkadot Hub** confirms in ~6 s; fee is drawn from the relayer wallet.  
 4. **Mobile app** gets the event → NFT visible in any ss58 wallet.
-
-No DOT required from the user — perfect for first-time visitors.
+```
 
 ---
 

@@ -4,9 +4,11 @@ node_modules
 # Hardhat files
 /cache
 /artifacts
+**/artifacts-pvm
+**/cach-pvm
 
 # TypeChain files
-/typechain
+/typechain-types
 
 # solidity-coverage files
 /coverage
@@ -14,5 +16,6 @@ node_modules
 
 # Hardhat Ignition default folder for deployments against a local node
 ignition/deployments/chain-31337
+ignition/deployments/*
 .qodo/
 .DS_Store

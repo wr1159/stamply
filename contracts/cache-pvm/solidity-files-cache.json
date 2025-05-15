@@ -1004,8 +1004,8 @@
       ]
     },
     "/Users/weirong/Developer/consensus-2025/contracts/contracts/StampNFT.sol": {
-      "lastModificationDate": 1747337004222,
-      "contentHash": "1977589b3cb888faaabdce0ca1bf156b",
+      "lastModificationDate": 1747339761387,
+      "contentHash": "6906974ffe414236da1a6c7e33061bd5",
       "sourceName": "contracts/StampNFT.sol",
       "solcConfig": {
         "version": "0.8.28",

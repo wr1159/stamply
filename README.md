@@ -19,7 +19,10 @@ stamply/
 │   └─ scripts/                  # deploy & verify
 │
 ├─ backend/          # Next.js  (Typescript) for easy deployment
-│   ├─ app/api/claim/route.ts    # Route Handler — POST {uid, addr}
+│   ├─ src/
+│   │   ├─ app/api/claim/route.ts    # Route Handler — POST {nfcId, toAddress}
+│   │   ├─ lib/abis/              # Contract ABIs for viem
+│   │   └─ config/index.ts       # Configuration with env vars
 │   └─ .env.local                # RPC URL + hot-wallet seed
 │
 └─ frontend/         # React-Native + Expo dev-client
@@ -31,7 +34,8 @@ stamply/
 
 ### ⚙️ Contract layer (`/contract`)
 
-* **Polkadot Hub native EVM** lets us keep pure Solidity while benefiting from Polkadot security and interoperability.  
+* **Polkadot Hub native EVM** stamps for everyone in polkadot!
+* **Bahamut Horizon Testnet** stamps for everyone in Bahamut too!
 * `StamplyRegistry` deploys new `StampNFT` instances for each landmark using the `new` keyword.
 * `StampNFT` is a simple ERC-721 + ERC721URIStorage implementation that's `Ownable` with the registry as its owner.
 * `registerLandmark(nfcId, name, symbol, img, desc)` ⇒ deploys a new StampNFT instance and stores it in `landmarks[nfcId]`.
@@ -44,11 +48,17 @@ All tasks are scripted in **Hardhat** (`npx hardhat run scripts/deploy-registry.
 
 ### 🌐 Backend (`/backend`)
 
-A minimal **Next.js 14** Route Handler (`app/api/claim/route.ts`) receives `{uid, addr}` and:
+A minimal **Next.js 14** API endpoint (`src/app/api/claim/route.ts`) that:
 
-1. Looks up `landmarks[uid]` on chain.  
-2. Builds `registry.claimStamp(uid, addr)` with **viem**.  
-3. Pays the gas fee from a funded hot wallet (mint ≈ \$0.01).  
+1. Receives `POST` request with `{nfcId, toAddress}`
+2. Uses **viem** to interact with the StamplyRegistry contract
+3. Converts NFC ID to the proper bytes32 format
+4. Simulates and then submits the transaction
+5. Pays gas fees from a backend hot wallet
+6. Waits for transaction confirmation and checks for emitted events
+7. Returns transaction details and token ID to the client
+
+The `/api/claim` endpoint handles all blockchain interaction on behalf of users, making the experience completely gas-free for them.
 
 ---
 
@@ -77,7 +87,13 @@ npx hardhat run scripts/claim-stamp.ts --network hubTestnet
 
 # 2. backend
 cd ../backend && npm i
+# Create .env.local with private key for gas-relaying hot wallet
 npm run dev               # localhost:3000/api/claim
+
+# Test the API with curl
+curl -X POST http://localhost:3000/api/claim \
+  -H "Content-Type: application/json" \
+  -d '{"nfcId":"example-nfc-id-1","toAddress":"0x1e527408BFC6Fcaf91a7Fb0c80D11F57E8f171Cb"}'
 
 # 3. frontend
 cd ../frontend
@@ -87,10 +103,10 @@ expo start --dev-client
 
 ### ✨ How the *gas-free* flow works
 
-1. **Reader app** sends `{uid, addr}`.  
-2. **Backend** signs & pays the extrinsic.  
-3. **Polkadot Hub** confirms in ~6 s; fee is drawn from the relayer wallet.  
-4. **Mobile app** gets the event → NFT visible in any ss58 wallet.
+1. **User app** reads NFC tag and sends `{nfcId, toAddress}` to backend API.  
+2. **Backend** signs & pays for the transaction using viem + hot wallet.  
+3. **Blockchain** (Polkadot Hub or Bahamut) confirms in ~6 s; fee is drawn from the hot wallet.  
+4. **Mobile app** gets the transaction details → NFT visible in any compatible wallet.
 ```
 
 ---

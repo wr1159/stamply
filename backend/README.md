@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stamply Backend
 
-## Getting Started
+The backend for the Stamply app, providing a server that handles NFC ID to NFT minting through a simple API.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Gas-Free Minting**: Backend pays gas fees for users, enabling a seamless experience
+- **Simple API**: Single `/api/claim` endpoint accepts NFC ID and recipient address
+- **Chain Support**: Currently deployed on Bahamut Horizon Testnet and PolkadotHub
+
+## Setup
+
+1. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+2. Create a `.env.local` file with the following variables:
+
+   ```
+   # Blockchain RPC URL
+   RPC_URL=https://test-rpc.bahamutchain.io
+   
+   # Contract addresses
+   REGISTRY_ADDRESS=0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4
+   
+   # Private key for hot wallet (DO NOT COMMIT THE ACTUAL PRIVATE KEY)
+   PRIVATE_KEY=your_private_key_here
+   
+   # Optional rate limiting settings
+   RATE_LIMIT_REQUESTS=10
+   RATE_LIMIT_WINDOW_SECONDS=60
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+## API Endpoints
+
+### `/api/claim` (POST)
+
+Claims an NFT stamp for a given NFC ID and recipient address.
+
+**Request Body**:
+
+```json
+{
+  "nfcId": "example-nfc-id-1",
+  "toAddress": "0x1e527408BFC6Fcaf91a7Fb0c80D11F57E8f171Cb"
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Response (Success)**:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```json
+{
+  "success": true,
+  "transactionHash": "0x123...",
+  "blockNumber": 12345,
+  "tokenId": 0,
+  "nfcId": "example-nfc-id-1",
+  "toAddress": "0x1e527408BFC6Fcaf91a7Fb0c80D11F57E8f171Cb"
+}
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Response (Error)**:
 
-## Learn More
+```json
+{
+  "error": "Error message here"
+}
+```
 
-To learn more about Next.js, take a look at the following resources:
+## How It Works
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. User scans an NFC tag with the mobile app
+2. App sends the NFC ID and user's wallet address to `/api/claim`
+3. Backend converts the NFC ID to bytes32 format
+4. Backend calls `claimStamp` on the StamplyRegistry contract
+5. Backend pays the gas fee using its hot wallet
+6. Backend waits for transaction confirmation
+7. Backend returns the transaction details and token ID to the app
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Testing
 
-## Deploy on Vercel
+You can test the API using curl:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+curl -X POST http://localhost:3000/api/claim \
+  -H "Content-Type: application/json" \
+  -d '{"nfcId":"example-nfc-id-1","toAddress":"0x1e527408BFC6Fcaf91a7Fb0c80D11F57E8f171Cb"}'
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Or using a tool like Postman.
+
+## Security Considerations
+
+- The backend uses a hot wallet with a private key to send transactions
+- In production, ensure the private key is securely stored and has limited funds
+- Consider implementing rate limiting and authentication for the API

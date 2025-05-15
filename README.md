@@ -14,7 +14,7 @@ stamply/
 │
 ├─ contract/         # Solidity + Hardhat for Polkadot Hub
 │   ├─ contracts/
-│   │   ├─ StampNFT.sol          # ERC-721 implementation (clone target)
+│   │   ├─ StampNFT.sol          # ERC-721 implementation
 │   │   └─ StamplyRegistry.sol   # factory + gas-free mint logic
 │   └─ scripts/                  # deploy & verify
 │
@@ -32,7 +32,7 @@ stamply/
 ### ⚙️ Contract layer (`/contract`)
 
 * **Polkadot Hub native EVM** lets us keep pure Solidity while benefiting from Polkadot security and interoperability.  
-* `StamplyRegistry` deploys minimal-proxy clones of `StampNFT` via **OpenZeppelin Clones** (EIP-1167) for gas-cheap collections.  
+* `StamplyRegistry` deploys and create `StampNFT` for different landmarks.
 * `registerLandmark(nfcId, name, imgUrl, desc)` ⇒ deploys a deterministic clone and stores it in `landmarks[nfcId]`.
 * `claimStamp(nfcId, to)` ⇒ mints a free token to `to`, emitting `StampClaimed`.
 

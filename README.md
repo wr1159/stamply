@@ -1,8 +1,8 @@
-## Stamply — “collect the world, one tap at a time”
+## Stamply — "collect the world, one tap at a time"
 
-Stamply turns any NFC sticker at a landmark into a *free* on-chain “stamp”.  
+Stamply turns any NFC sticker at a landmark into a *free* on-chain "stamp".  
 Users open the Stamply mobile app, tap a plaque, and an NFT for that place lands in their wallet in ~6 s — **with zero gas paid by the user**.  
-All contracts live on **Polkadot Hub’s native EVM**, the backend sponsors fees, and the app is built with **Expo + React-Native NFC**.
+All contracts live on **Polkadot Hub's native EVM** AND **Bahamut Horizon Testnet**, the backend sponsors fees, and the app is built with **Expo + React-Native NFC**.
 No DOT required from the user — perfect for first-time visitors.
 
 ---
@@ -14,8 +14,8 @@ stamply/
 │
 ├─ contract/         # Solidity + Hardhat for Polkadot Hub
 │   ├─ contracts/
-│   │   ├─ StampNFT.sol          # ERC-721 implementation
-│   │   └─ StamplyRegistry.sol   # factory + gas-free mint logic
+│   │   ├─ StampNFT.sol          # ERC-721 implementation (Ownable)
+│   │   └─ StamplyRegistry.sol   # direct deployment factory + mint redirect logic
 │   └─ scripts/                  # deploy & verify
 │
 ├─ backend/          # Next.js  (Typescript) for easy deployment
@@ -32,11 +32,13 @@ stamply/
 ### ⚙️ Contract layer (`/contract`)
 
 * **Polkadot Hub native EVM** lets us keep pure Solidity while benefiting from Polkadot security and interoperability.  
-* `StamplyRegistry` deploys and create `StampNFT` for different landmarks.
-* `registerLandmark(nfcId, name, imgUrl, desc)` ⇒ deploys a deterministic clone and stores it in `landmarks[nfcId]`.
-* `claimStamp(nfcId, to)` ⇒ mints a free token to `to`, emitting `StampClaimed`.
+* `StamplyRegistry` deploys new `StampNFT` instances for each landmark using the `new` keyword.
+* `StampNFT` is a simple ERC-721 + ERC721URIStorage implementation that's `Ownable` with the registry as its owner.
+* `registerLandmark(nfcId, name, symbol, img, desc)` ⇒ deploys a new StampNFT instance and stores it in `landmarks[nfcId]`.
+* `claimStamp(nfcId, to)` ⇒ mints a free token to `to`, emitting `StampClaimed` with the token ID.
+* Each landmark's NFT collection has its own separate token ID counter starting from 0.
 
-All tasks are scripted in **Hardhat** (`npx hardhat deploy`) which compiles Solidity 0.8.23 and connects to the Hub RPC.
+All tasks are scripted in **Hardhat** (`npx hardhat run scripts/deploy-registry.ts`) which compiles Solidity 0.8.23 and connects to the Hub RPC. There are also helper scripts for registering landmarks and claiming stamps.
 
 ---
 
@@ -65,7 +67,13 @@ A minimal **Next.js 14** Route Handler (`app/api/claim/route.ts`) receives `{uid
 # 1. contracts
 cd contract && npm i
 npx hardhat test
-npx hardhat run scripts/deploy.ts --network hubTestnet
+npx hardhat run scripts/deploy-registry.ts --network hubTestnet
+
+# Register a landmark (edit the script first to update registry address)
+npx hardhat run scripts/register-landmark.ts --network hubTestnet
+
+# Claim a stamp (edit the script first to update registry address and recipient)
+npx hardhat run scripts/claim-stamp.ts --network hubTestnet
 
 # 2. backend
 cd ../backend && npm i

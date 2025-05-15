@@ -1,31 +1,24 @@
-import { ethers } from "hardhat";
-import { Signer } from "ethers";
+const hre = require("hardhat");
 
 // EDIT these values as needed:
-const REGISTRY_ADDRESS = "0xC3Cc8b8040DEbe4d44C160dA2beFf7499B0f39aF"; // Westend Asset Hub
+const REGISTRY_ADDRESS = "0x21fB2C1afac88201928A04AbBcEF9F40141e6124"; // Westend Asset Hub
 // const REGISTRY_ADDRESS = "0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4"; // Bahamut
+const STAMP_ADDRESS = "0x66b7a4AE4dAfAc28D852ea1f7E5B6C470330FD0D";
 
-const NFC_ID = ethers.encodeBytes32String("example-nfc-id-1");
-const NAME = "Eiffel Tower";
-const SYMBOL = "EIFFEL";
-const IMG =
-    "https://i.natgeofe.com/k/c41b4f59-181c-4747-ad20-ef69987c8d59/eiffel-tower-night.jpg";
-const DESC = "The famous Paris landmark.";
+// const NFC_ID = hre.ethers.encodeBytes32String("stamp-f9435");
+const NFC_ID = hre.ethers.encodeBytes32String("stamp-66b7a");
 
 async function main() {
-    const [deployer] = await ethers.getSigners();
+    const [deployer] = await hre.ethers.getSigners();
     console.log(`Deployer: ${deployer.address}`);
-    const registry = await ethers.getContractAt(
+    console.log(`Registry: ${REGISTRY_ADDRESS}`);
+    const registry = await hre.ethers.getContractAt(
         "StamplyRegistry",
         REGISTRY_ADDRESS,
-        deployer as unknown as Signer
+        deployer
     );
 
-    console.log(`Registering landmark "${NAME}" with NFC ID: ${NFC_ID}...`);
-    console.log(`Symbol: ${SYMBOL}, Image: ${IMG}`);
-    console.log(`Description: ${DESC}`);
-
-    const tx = await registry.registerLandmark(NFC_ID, NAME, SYMBOL, IMG, DESC);
+    const tx = await registry.registerLandmarkExisting(NFC_ID, STAMP_ADDRESS);
     console.log(`Transaction hash: ${tx.hash}`);
 
     const receipt = await tx.wait();
@@ -38,7 +31,7 @@ async function main() {
     let found = false;
     for (const log of receipt.logs) {
         try {
-            const parsed = registry.interface.parseLog(log as any);
+            const parsed = registry.interface.parseLog(log);
             if (parsed && parsed.name === "LandmarkRegistered") {
                 found = true;
                 console.log("✅ Landmark registered successfully!");
@@ -46,10 +39,10 @@ async function main() {
                 console.log("Collection address:", parsed.args.collection);
 
                 // Get the StampNFT contract to show additional details
-                const landmarkNFT = await ethers.getContractAt(
+                const landmarkNFT = await hre.ethers.getContractAt(
                     "StampNFT",
                     parsed.args.collection,
-                    deployer as unknown as Signer
+                    deployer
                 );
                 console.log("Verification - StampNFT details:");
                 console.log("  Name:", await landmarkNFT.name());
@@ -70,5 +63,5 @@ async function main() {
 
 main().catch((error) => {
     console.error("Error occurred:", error);
-    process.exit(1);
+    process.exitCode = 1;
 });

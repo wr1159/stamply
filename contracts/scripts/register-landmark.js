@@ -1,11 +1,10 @@
-import { ethers } from "hardhat";
-import { Signer } from "ethers";
+const hre = require("hardhat");
 
 // EDIT these values as needed:
-const REGISTRY_ADDRESS = "0xC3Cc8b8040DEbe4d44C160dA2beFf7499B0f39aF"; // Westend Asset Hub
+const REGISTRY_ADDRESS = "0x94c719Aa2Bf7d18D6e7f3d263118274a5bd16558"; // Westend Asset Hub (Old without register existing landmark)
 // const REGISTRY_ADDRESS = "0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4"; // Bahamut
 
-const NFC_ID = ethers.encodeBytes32String("example-nfc-id-1");
+const NFC_ID = hre.ethers.encodeBytes32String("example-nfc-id-1");
 const NAME = "Eiffel Tower";
 const SYMBOL = "EIFFEL";
 const IMG =
@@ -13,12 +12,13 @@ const IMG =
 const DESC = "The famous Paris landmark.";
 
 async function main() {
-    const [deployer] = await ethers.getSigners();
+    const [deployer] = await hre.ethers.getSigners();
     console.log(`Deployer: ${deployer.address}`);
-    const registry = await ethers.getContractAt(
+    console.log(`Registry: ${REGISTRY_ADDRESS}`);
+    const registry = await hre.ethers.getContractAt(
         "StamplyRegistry",
         REGISTRY_ADDRESS,
-        deployer as unknown as Signer
+        deployer
     );
 
     console.log(`Registering landmark "${NAME}" with NFC ID: ${NFC_ID}...`);
@@ -38,7 +38,7 @@ async function main() {
     let found = false;
     for (const log of receipt.logs) {
         try {
-            const parsed = registry.interface.parseLog(log as any);
+            const parsed = registry.interface.parseLog(log);
             if (parsed && parsed.name === "LandmarkRegistered") {
                 found = true;
                 console.log("✅ Landmark registered successfully!");
@@ -46,10 +46,10 @@ async function main() {
                 console.log("Collection address:", parsed.args.collection);
 
                 // Get the StampNFT contract to show additional details
-                const landmarkNFT = await ethers.getContractAt(
+                const landmarkNFT = await hre.ethers.getContractAt(
                     "StampNFT",
                     parsed.args.collection,
-                    deployer as unknown as Signer
+                    deployer
                 );
                 console.log("Verification - StampNFT details:");
                 console.log("  Name:", await landmarkNFT.name());
@@ -70,5 +70,5 @@ async function main() {
 
 main().catch((error) => {
     console.error("Error occurred:", error);
-    process.exit(1);
+    process.exitCode = 1;
 });

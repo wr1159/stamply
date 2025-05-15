@@ -1,25 +1,20 @@
-import { ethers } from "hardhat";
-import { Signer } from "ethers";
+const hre = require("hardhat");
 
 // EDIT these values as needed:
-const REGISTRY_ADDRESS = "0x21fB2C1afac88201928A04AbBcEF9F40141e6124"; // Westend Asset Hub
-// const REGISTRY_ADDRESS = "0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4"; // Bahamut
-const NFC_ID = ethers.encodeBytes32String("example-nfc-id-1");
-const RECIPIENT = "0x1e527408BFC6Fcaf91a7Fb0c80D11F57E8f171Cb";
+const STAMP_ADDRESS = "0x66b7a4AE4dAfAc28D852ea1f7E5B6C470330FD0D";
+const RECIPIENT = "0x12Ede541Bcf2BaA4b8865378fF4ceb3C8e39970b";
 
 async function main() {
-    const [caller] = await ethers.getSigners();
-    const registry = await ethers.getContractAt(
-        "StamplyRegistry",
-        REGISTRY_ADDRESS,
-        caller as unknown as Signer
+    const [caller] = await hre.ethers.getSigners();
+    const registry = await hre.ethers.getContractAt(
+        "StampNFT",
+        STAMP_ADDRESS,
+        caller
     );
 
-    console.log(
-        `Claiming stamp with NFC ID: ${NFC_ID} for recipient: ${RECIPIENT}...`
-    );
+    console.log(`STAMPNFT: ${STAMP_ADDRESS}`);
 
-    const tx = await registry.claimStamp(NFC_ID, RECIPIENT);
+    const tx = await registry.mint(RECIPIENT);
     console.log(`Transaction hash: ${tx.hash}`);
 
     const receipt = await tx.wait();
@@ -32,7 +27,7 @@ async function main() {
     let found = false;
     for (const log of receipt.logs) {
         try {
-            const parsed = registry.interface.parseLog(log as any);
+            const parsed = registry.interface.parseLog(log);
             if (parsed && parsed.name === "StampClaimed") {
                 found = true;
                 console.log("✅ Stamp claimed successfully!");

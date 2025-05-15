@@ -36,14 +36,22 @@ contract StamplyRegistry is Ownable {
         StampNFT newNftCollection = new StampNFT(
             name,
             symbol,
-            img,
-            description,
+            // img,
+            // description,
             nfcId,
             address(this)
         );
 
         landmarks[nfcId] = address(newNftCollection);
         emit LandmarkRegistered(nfcId, address(newNftCollection));
+    }
+
+    function registerLandmarkExisting(
+        bytes32 nfcId,
+        address collection
+    ) external onlyOwner {
+        landmarks[nfcId] = collection;
+        emit LandmarkRegistered(nfcId, collection);
     }
 
     function claimStamp(bytes32 nfcId, address to) external {

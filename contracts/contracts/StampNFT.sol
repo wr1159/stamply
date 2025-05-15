@@ -24,7 +24,7 @@ contract StampNFT is Ownable, ERC721 {
         nfcId = nfcId_;
     }
 
-    function mint(address to) external virtual onlyOwner returns (uint256) {
+    function mint(address to) external virtual returns (uint256) {
         uint256 tokenId = _nextTokenId++;
         _safeMint(to, tokenId);
         // ERC721URIStorage allows setting tokenURI per token.

@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.23;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Context.sol"; // Ownable and ERC721 might need Context
 
-contract StampNFT is Context, Ownable, ERC721URIStorage {
-    string public imageUri;
-    string public description;
+contract StampNFT is Ownable, ERC721 {
+    // string public imageUri;
+    // string public description;
     bytes32 public nfcId; // To associate the NFT collection with a specific NFC tag
 
     uint256 private _nextTokenId;
@@ -15,13 +14,13 @@ contract StampNFT is Context, Ownable, ERC721URIStorage {
     constructor(
         string memory name_,
         string memory symbol_,
-        string memory imageUri_,
-        string memory description_,
+        // string memory imageUri_,
+        // string memory description_,
         bytes32 nfcId_,
         address initialOwner_ // This will be the StamplyRegistry contract
     ) ERC721(name_, symbol_) Ownable(initialOwner_) {
-        imageUri = imageUri_;
-        description = description_;
+        // imageUri = imageUri_;
+        // description = description_;
         nfcId = nfcId_;
     }
 

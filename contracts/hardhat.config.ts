@@ -39,6 +39,25 @@ const config: HardhatUserConfig = {
             url: "https://westend-asset-hub-eth-rpc.polkadot.io",
             accounts: [vars.get("WESTEND_HUB_PK")],
         },
+        bahamut: {
+            url: "https://rpc1-horizon.bahamut.io",
+            accounts: [vars.get("WESTEND_HUB_PK")],
+        },
+    },
+    etherscan: {
+        apiKey: {
+            bahamut: "empty",
+        },
+        customChains: [
+            {
+                network: "bahamut",
+                chainId: 2552,
+                urls: {
+                    apiURL: "https://bck.ftnscan.com/api",
+                    browserURL: "https://horizon.ftnscan.com:3001",
+                },
+            },
+        ],
     },
     ignition: {
         requiredConfirmations: 1,

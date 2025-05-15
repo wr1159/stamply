@@ -1,12 +1,29 @@
 import { Stack } from "expo-router";
 import { PrivyProvider } from "@privy-io/expo";
-import "dotenv/config";
+import Constants from "expo-constants";
+import { View } from "react-native";
+
+const PRIVY_APP_ID = Constants.expoConfig.extra.PRIVY_APP_ID;
+const PRIVY_CLIENT_ID = Constants.expoConfig.extra.PRIVY_CLIENT_ID;
 
 export default function Layout() {
+  if (!PRIVY_APP_ID || !PRIVY_CLIENT_ID) {
+    return (
+      <View style={{ flex: 1, backgroundColor: "#FFF5F5" }}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: "#FFF5F5" },
+          }}
+        />
+      </View>
+    );
+  }
+
   return (
     <PrivyProvider
-      appId={process.env.PRIVY_APP_ID}
-      clientId={process.env.PRIVY_CLIENT_ID}
+      appId={PRIVY_APP_ID}
+      clientId={PRIVY_CLIENT_ID}
       config={{
         appearance: {
           theme: "light",

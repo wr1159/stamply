@@ -16,10 +16,13 @@ All contracts live on **Polkadot Hub's native EVM** AND **Bahamut Horizon Testne
 
 ### Addreses
 
-PolkadotHub Contract: `0x66b7a4AE4dAfAc28D852ea1f7E5B6C470330FD0D`
-BahamutHorizon Contract: `0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4`
-BaseSepolia Address: `0x4E448907B4B8d5949D4A6C67f34419dBb29690bD`
-BaseSepolia PolciyId: `78`
+```bash
+PolkadotHub Contract: 0x66b7a4AE4dAfAc28D852ea1f7E5B6C470330FD0D
+BahamutHorizon Contract: 0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4
+BaseSepolia Address: 0x4E448907B4B8d5949D4A6C67f34419dBb29690bD
+BaseSepolia PolciyId: 78
+```
+
 ---
 
 ### 🗂 Monorepo structure

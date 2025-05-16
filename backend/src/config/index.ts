@@ -3,7 +3,10 @@
 export const config = {
     // Blockchain settings
     rpc: {
-        url: process.env.RPC_URL || "https://rpc1-horizon.bahamut.io",
+        bahamut: process.env.RPC_URL || "https://rpc1-horizon.bahamut.io",
+        assetHub:
+            process.env.ASSET_HUB_RPC_URL ||
+            "https://westend-asset-hub-eth-rpc.polkadot.io",
     },
 
     // Contract addresses
@@ -11,6 +14,9 @@ export const config = {
         registry:
             process.env.REGISTRY_ADDRESS ||
             "0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4",
+        stamp:
+            process.env.POLKADOT_ADDRESS ||
+            "0x66b7a4AE4dAfAc28D852ea1f7E5B6C470330FD0D",
     },
 
     // Private key for the hot wallet

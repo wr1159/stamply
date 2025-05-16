@@ -4,6 +4,7 @@ import { privateKeyToAccount } from "viem/accounts";
 import { registryAbi } from "@/lib/abis/StamplyRegistry";
 import config from "@/config";
 import { bahamutHorizon } from "@/lib/bahamutHorizon";
+import { isValidEthereumAddress } from "@/lib/isEthAddress";
 
 // Create the wallet account from private key
 const account = privateKeyToAccount(config.wallet.privateKey as `0x${string}`);
@@ -11,13 +12,13 @@ const account = privateKeyToAccount(config.wallet.privateKey as `0x${string}`);
 // Initialize viem clients
 const publicClient = createPublicClient({
     chain: bahamutHorizon,
-    transport: http(config.rpc.url),
+    transport: http(config.rpc.bahamut),
 });
 
 const walletClient = createWalletClient({
     account,
     chain: bahamutHorizon,
-    transport: http(config.rpc.url),
+    transport: http(config.rpc.bahamut),
 });
 
 // API endpoint to claim an NFT based on an NFC ID
@@ -146,9 +147,4 @@ function convertToBytes32(input: string): `0x${string}` {
         .join("");
 
     return `0x${hex}` as `0x${string}`;
-}
-
-// Helper function to validate Ethereum address format
-function isValidEthereumAddress(address: string): boolean {
-    return /^0x[a-fA-F0-9]{40}$/.test(address);
 }

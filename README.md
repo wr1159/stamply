@@ -5,9 +5,9 @@ Sutanpu turns any landmark into a *free* on-chain "stamp" with an NFC sticker.
 Users open the Sutanpu mobile app, tap a plaque, and an NFT for that place lands in their wallet in ~6 s — **with zero gas paid by the user**.  Making it perfect for onboarding users.
 All contracts live on **Polkadot Hub's native EVM** AND **Bahamut Horizon Testnet** AND **BaseSepolia** (With ForteRuleEngine), the backend sponsors fees, and the app is built with **Expo + React-Native NFC**.
 
-[Youtube Full Video](https://youtu.be/ONHVpZbMQwoQ)
+[Youtube Full Video](https://youtu.be/qVghzOQIOqQ)
 
-[Youtube Demo](https://youtu.be/x-gUh5T-BKQ?si=QSjDMqlwTjTuy33b&t=184Q)
+[Youtube Demo](https://youtu.be/pzqG57ep1mI)
 
 [Tourism Dashboard Page](https://stamply-theta.vercel.app/)
 

@@ -1,7 +1,8 @@
 import { StatusBar } from "expo-status-bar";
-import { Text, View, ScrollView, Image } from "react-native";
-import { useState, useEffect } from "react";
+import { Text, View, ScrollView, Image, Animated } from "react-native";
+import { useState, useEffect, useRef } from "react";
 import NfcManager, { NfcTech, NfcEvents, Ndef } from "react-native-nfc-manager";
+import ConfettiCannon from "react-native-confetti-cannon";
 import { styles } from "./styles";
 
 const stampImages = {
@@ -9,10 +10,44 @@ const stampImages = {
   aquarium: require("./assets/stamps/aquarium.png"),
 };
 
+const API_URL = "https://stamply-theta.vercel.app/api/claim";
+const TO_ADDRESS = "0x15d1Ab0F99e8485868Dd1AA393406b5637a66Aae";
+
 export default function App() {
   const [hasNfc, setHasNfc] = useState(null);
   const [collectedStamps, setCollectedStamps] = useState([]);
   const [isScanning, setIsScanning] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [newStampId, setNewStampId] = useState(null);
+  const confettiRef = useRef(null);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const sendStampToServer = async (stamp) => {
+    console.log("Sending stamp to server:", stamp.title);
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          toAddress: TO_ADDRESS,
+          nfcId: stamp.title,
+        }),
+      });
+      console.log("Response:", response);
+      if (!response.ok) {
+        throw new Error("Failed to send stamp data");
+      }
+
+      const data = await response.json();
+      console.log("Stamp data sent successfully:", data);
+      return data;
+    } catch (error) {
+      console.error("Error sending stamp data:", error);
+    }
+  };
 
   useEffect(() => {
     const checkNfc = async () => {
@@ -24,11 +59,36 @@ export default function App() {
       }
     };
     checkNfc();
-
-    // return () => {
-    //   NfcManager.cancelTechnologyRequest();
-    // };
   }, []);
+
+  const triggerConfetti = () => {
+    setShowConfetti(true);
+    // Reset confetti state after animation
+    setTimeout(() => {
+      setShowConfetti(false);
+    }, 5000);
+  };
+
+  const fadeInNewStamp = (stampId) => {
+    // Delay the stamp animation slightly after confetti starts
+    setTimeout(() => {
+      setNewStampId(stampId);
+      Animated.sequence([
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 0,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        setNewStampId(null);
+      });
+    }, 300); // 300ms delay after confetti starts
+  };
 
   const getStampTitle = (stampLocation) => {
     switch (stampLocation) {
@@ -88,7 +148,15 @@ export default function App() {
           };
 
           const updatedStamps = [...prevStamps, newStamp];
-          console.log("Updated collection:", updatedStamps);
+
+          // Start confetti first
+          triggerConfetti();
+          // Then trigger stamp animation after a short delay
+          fadeInNewStamp(newStamp.id);
+
+          // Send the new stamp to the server
+          sendStampToServer(newStamp);
+
           return updatedStamps;
         });
       }
@@ -104,27 +172,9 @@ export default function App() {
     }
   };
 
-  // if (hasNfc === null) {
-  //   return (
-  //     <View style={styles.container}>
-  //       <Text style={styles.scanningText}>Checking NFC availability...</Text>
-  //     </View>
-  //   );
-  // }
-
-  // if (hasNfc === false) {
-  //   return (
-  //     <View style={styles.container}>
-  //       <Text style={styles.errorText}>
-  //         NFC is not supported on this device
-  //       </Text>
-  //     </View>
-  //   );
-  // }
-
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
 
       {/* Header */}
       <View style={styles.header}>
@@ -135,7 +185,7 @@ export default function App() {
       </View>
 
       {/* Collection View */}
-      <ScrollView style={styles.collectionContainer}>
+      <View style={styles.collectionContainer}>
         {collectedStamps.length === 0 ? (
           <View style={styles.emptyState}>
             <Text style={styles.emptyStateText}>
@@ -146,17 +196,39 @@ export default function App() {
             </Text>
           </View>
         ) : (
-          collectedStamps.map((stamp) => (
-            <View key={stamp.id} style={styles.stampCard}>
-              <Image source={stamp.image} style={styles.stampImage} />
-              <View style={styles.stampInfo}>
-                <Text style={styles.stampLocation}>{stamp.location}</Text>
-                <Text style={styles.stampDate}>{stamp.date}</Text>
-              </View>
-            </View>
-          ))
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.stampsScrollView}
+          >
+            {collectedStamps.map((stamp) => (
+              <Animated.View
+                key={stamp.id}
+                style={[
+                  styles.stampCard,
+                  stamp.id === newStampId && {
+                    opacity: fadeAnim,
+                    transform: [
+                      {
+                        scale: fadeAnim.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [0.8, 1],
+                        }),
+                      },
+                    ],
+                  },
+                ]}
+              >
+                <Image source={stamp.image} style={styles.stampImage} />
+                <View style={styles.stampInfo}>
+                  <Text style={styles.stampLocation}>{stamp.location}</Text>
+                  <Text style={styles.stampDate}>{stamp.date}</Text>
+                </View>
+              </Animated.View>
+            ))}
+          </ScrollView>
         )}
-      </ScrollView>
+      </View>
 
       {/* Scanning Overlay */}
       <View style={styles.scanningOverlay}>
@@ -166,6 +238,15 @@ export default function App() {
         </Text>
         <Text style={styles.scanningIcon}>✨</Text>
       </View>
+
+      {/* Confetti Animation */}
+      {showConfetti && (
+        <ConfettiCannon
+          ref={confettiRef}
+          count={50}
+          origin={{ x: 0, y: -10 }}
+        />
+      )}
     </View>
   );
 }

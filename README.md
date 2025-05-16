@@ -6,7 +6,9 @@ Users open the Sutanpu mobile app, tap a plaque, and an NFT for that place lands
 All contracts live on **Polkadot Hub's native EVM** AND **Bahamut Horizon Testnet** AND **BaseSepolia** (With ForteRuleEngine), the backend sponsors fees, and the app is built with **Expo + React-Native NFC**.
 
 [Youtube Full Video](https://youtu.be/ONHVpZbMQwoQ)
+
 [Youtube Demo](https://youtu.be/x-gUh5T-BKQ?si=QSjDMqlwTjTuy33b&t=184Q)
+
 [Tourism Dashboard Page](https://stamply-theta.vercel.app/)
 ---
 

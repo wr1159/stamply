@@ -64,7 +64,7 @@ export const bahamutHorizon = defineChain({
  */
 const createTestConfig = async () => {
     config = createConfig({
-        chains: [process.env.LOCAL_CHAIN == "TRUE" ? foundry : bahamutHorizon],
+        chains: [process.env.LOCAL_CHAIN == "TRUE" ? foundry : baseSepolia],
         client({ chain }) {
             return createClient({
                 chain,

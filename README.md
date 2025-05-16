@@ -18,6 +18,10 @@ stamply/
 │   │   └─ StamplyRegistry.sol   # direct deployment factory + mint redirect logic
 │   └─ scripts/                  # deploy & verify
 │
+├─ contracts-fre/    # Forte Rules Engine integration
+│   ├─ stamplypolicy.json        # Configurable policy for gamification & limits
+│   └─ index.ts                  # SDK tools for policy management
+│
 ├─ backend/          # Next.js  (Typescript) for easy deployment
 │   ├─ src/
 │   │   ├─ app/api/claim/route.ts    # Route Handler — POST {nfcId, toAddress}
@@ -43,6 +47,31 @@ stamply/
 * Each landmark's NFT collection has its own separate token ID counter starting from 0.
 
 All tasks are scripted in **Hardhat** (`npx hardhat run scripts/deploy-registry.ts`) which compiles Solidity 0.8.23 and connects to the Hub RPC. There are also helper scripts for registering landmarks and claiming stamps.
+
+---
+
+### 🎮 Forte Rules Engine (`/contracts-fre`)
+
+* **Smart Policies** extend Stamply with configurable rules without changing the core contracts.
+* Key features enabled by the Forte Rules Engine:
+  * **Daily Claim Limits**: Caps claims at 500 per day to prevent spam and exploitation.
+  * **Milestone Celebrations**: Special events triggered at visitor milestones (e.g., 100th visitor).
+  * **Landmark-Specific Rewards**: Custom rules for specific venues like the Aquarium.
+  * **Tourism Analytics**: Tracking metrics important for tourism boards.
+  * **Seasonal Promotions**: Ability to modify rules based on seasons without redeployment.
+
+The `stamplypolicy.json` defines all rules and trackers, which can be updated without redeploying core contracts.
+
+To setup and apply the policy:
+
+```bash
+cd contracts-fre
+npm i
+# Create and register policy
+npx tsx index.ts setupPolicy stamplypolicy.json
+# Apply policy to your contract
+npx tsx index.ts applyPolicy <POLICY_ID> <CONTRACT_ADDRESS>
+```
 
 ---
 
@@ -117,6 +146,7 @@ expo start --dev-client
 * AR overlay and Mapbox clustering.  
 * Wormhole bridge to mirror stamps on other chains (multichain bonus).  
 * Progressive Web App viewer for desktop collectors.
+* Enhanced gamification through advanced Rules Engine policies.
 
 ---
 

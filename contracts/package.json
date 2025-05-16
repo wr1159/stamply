@@ -13,5 +13,8 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@parity/hardhat-polkadot": "^0.1.4"
+  },
+  "dependencies": {
+    "@typechain/hardhat": "^9.1.0"
   }
 }

@@ -98,10 +98,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Strings__factory>;
     getContractFactory(
-      name: "Escrow",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Escrow__factory>;
-    getContractFactory(
       name: "Lock",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Lock__factory>;
@@ -117,10 +113,6 @@ declare module "hardhat/types/runtime" {
       name: "StampNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.StampNFT__factory>;
-    getContractFactory(
-      name: "SupplyChainVerifier",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SupplyChainVerifier__factory>;
 
     getContractAt(
       name: "AccessControl",
@@ -228,11 +220,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Strings>;
     getContractAt(
-      name: "Escrow",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Escrow>;
-    getContractAt(
       name: "Lock",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -252,11 +239,6 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.StampNFT>;
-    getContractAt(
-      name: "SupplyChainVerifier",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SupplyChainVerifier>;
 
     deployContract(
       name: "AccessControl",
@@ -343,10 +325,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Strings>;
     deployContract(
-      name: "Escrow",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Escrow>;
-    deployContract(
       name: "Lock",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Lock>;
@@ -362,10 +340,6 @@ declare module "hardhat/types/runtime" {
       name: "StampNFT",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.StampNFT>;
-    deployContract(
-      name: "SupplyChainVerifier",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.SupplyChainVerifier>;
 
     deployContract(
       name: "AccessControl",
@@ -473,11 +447,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Strings>;
     deployContract(
-      name: "Escrow",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Escrow>;
-    deployContract(
       name: "Lock",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -497,11 +466,6 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.StampNFT>;
-    deployContract(
-      name: "SupplyChainVerifier",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.SupplyChainVerifier>;
 
     // default types
     getContractFactory(

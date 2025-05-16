@@ -2,9 +2,9 @@ import { ethers } from "hardhat";
 import { Signer } from "ethers";
 
 // EDIT these values as needed:
-const REGISTRY_ADDRESS = "0x21fB2C1afac88201928A04AbBcEF9F40141e6124"; // Westend Asset Hub
-// const REGISTRY_ADDRESS = "0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4"; // Bahamut
-const NFC_ID = ethers.encodeBytes32String("example-nfc-id-1");
+// const REGISTRY_ADDRESS = "0x21fB2C1afac88201928A04AbBcEF9F40141e6124"; // Westend Asset Hub
+const REGISTRY_ADDRESS = "0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4"; // Bahamut
+const NFC_ID = ethers.encodeBytes32String("cntower");
 const RECIPIENT = "0x1e527408BFC6Fcaf91a7Fb0c80D11F57E8f171Cb";
 
 async function main() {

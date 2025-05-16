@@ -2,15 +2,15 @@ import { ethers } from "hardhat";
 import { Signer } from "ethers";
 
 // EDIT these values as needed:
-const REGISTRY_ADDRESS = "0xC3Cc8b8040DEbe4d44C160dA2beFf7499B0f39aF"; // Westend Asset Hub
-// const REGISTRY_ADDRESS = "0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4"; // Bahamut
+// const REGISTRY_ADDRESS = "0xC3Cc8b8040DEbe4d44C160dA2beFf7499B0f39aF"; // Westend Asset Hub
+const REGISTRY_ADDRESS = "0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4"; // Bahamut
 
-const NFC_ID = ethers.encodeBytes32String("example-nfc-id-1");
-const NAME = "Eiffel Tower";
-const SYMBOL = "EIFFEL";
-const IMG =
-    "https://i.natgeofe.com/k/c41b4f59-181c-4747-ad20-ef69987c8d59/eiffel-tower-night.jpg";
-const DESC = "The famous Paris landmark.";
+const NFC_ID = ethers.encodeBytes32String("aquarium");
+const NAME = "Ripley's Aquarium of Canada";
+const SYMBOL = "AQUARIUM";
+const IMG = "https://i.imgur.com/qNQA2ex.png";
+const DESC =
+    "An aquarium in Toronto, Canada with more than 10,000 aquatic creatures.";
 
 async function main() {
     const [deployer] = await ethers.getSigners();

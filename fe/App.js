@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { Text, View, ScrollView, Image } from "react-native";
 import { useState, useEffect } from "react";
-import NfcManager, { NfcTech, NfcEvents } from "react-native-nfc-manager";
+import NfcManager, { NfcTech, NfcEvents, Ndef } from "react-native-nfc-manager";
 import { styles } from "./styles";
 
 export default function App() {
@@ -36,6 +36,27 @@ export default function App() {
 
       if (tag) {
         // Add new stamp to collection
+        console.log("Tag found:", tag);
+        console.log("NDEF Message:", tag.ndefMessage);
+        console.log("NDEF Records:", tag.ndefMessage[0].payload);
+        console.log("NDEF string:", tag.ndefMessage[0].payload.toString());
+        const text = Ndef.text.decodePayload(tag.ndefMessage[0].payload);
+        console.log("Text:", text);
+
+        console.log(
+          "NDEF Records:",
+          NfcManager.ndefHandler.decodePayload(tag.ndefMessage[0].payload)
+        );
+
+        if (tag?.ndefMessage) {
+          const ndefRecords = tag.ndefMessage;
+
+          const text = ndefRecords.map((record) => {
+            const payload = Ndef.text.decodePayload(record.payload);
+            return payload;
+          });
+        }
+
         const newStamp = {
           id: Date.now(),
           location: tag.ndefMessage?.[0]?.payload

@@ -15,19 +15,35 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#E8D5C4", // Traditional Japanese color
   },
+  headerContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   title: {
-    fontSize: 36,
+    fontSize: 32,
     fontWeight: "700",
     color: "#2C1810", // Deep brown
     marginBottom: 8,
     fontFamily: "System",
-    letterSpacing: 1,
   },
   subtitle: {
     fontSize: 16,
     color: "#8B4513", // Saddle brown
     fontFamily: "System",
-    letterSpacing: 0.5,
+  },
+  settingsButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#F7F3EB",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#E8D5C4",
+  },
+  settingsIcon: {
+    fontSize: 24,
   },
   collectionContainer: {
     flex: 1,
@@ -53,7 +69,7 @@ export const styles = StyleSheet.create({
     elevation: 5,
     borderWidth: 1,
     borderColor: "#E8D5C4",
-    height: 450,
+    height: 400,
   },
   stampImage: {
     width: "100%",
@@ -105,13 +121,15 @@ export const styles = StyleSheet.create({
   },
   scanningOverlay: {
     position: "absolute",
-    bottom: 0,
+    bottom: 10,
     left: 0,
     right: 0,
     backgroundColor: "rgba(255, 255, 255, 0.98)",
     padding: 24,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
     shadowColor: "#2C1810",
     shadowOffset: {
       width: 0,
@@ -141,5 +159,12 @@ export const styles = StyleSheet.create({
     fontSize: 28,
     textAlign: "center",
     color: "#8B4513",
+  },
+  successMessage: {
+    fontSize: 16,
+    color: "##2986cc",
+    textAlign: "center",
+    marginBottom: 12,
+    fontFamily: "System",
   },
 });

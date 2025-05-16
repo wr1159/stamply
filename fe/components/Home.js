@@ -192,7 +192,7 @@ const Home = () => {
       <View style={styles.header}>
         <View style={styles.headerContent}>
           <View>
-            <Text style={styles.title}>Stamply</Text>
+            <Text style={styles.title}>Sutanpu</Text>
             <Text style={styles.subtitle}>
               Collect memories, one stamp at a time
             </Text>
@@ -251,7 +251,7 @@ const Home = () => {
       <View style={styles.scanningOverlay}>
         <Text style={styles.nfcIcon}>📱✨</Text>
         <Text style={styles.scanningText}>
-          Put your phone near a Stamply Tag
+          Put your phone near a Sutanpu Tag
         </Text>
         {/* <Text style={styles.scanningIcon}>✨</Text> */}
       </View>

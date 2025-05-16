@@ -14,9 +14,17 @@ const { width } = Dimensions.get("window");
 // Mock data for the social feed
 const feedData = [
   {
+    id: 0,
+    name: "Kai",
+    avatar: require("../assets/kai.jpg"),
+    stampImage: stampImages.aquarium,
+    stampTitle: "Visited the dolphins!",
+    timestamp: "Just Now",
+  },
+  {
     id: 1,
     name: "Sophia Patel",
-    avatar: "https://i.pravatar.cc/150?img=4",
+    avatar: require("../assets/trv2.jpeg"),
     stampImage: stampImages.casaloma,
     stampTitle: "Had a great time at Casa Loma!",
     timestamp: "2 days ago",
@@ -24,7 +32,7 @@ const feedData = [
   {
     id: 2,
     name: "Tyler Brooks",
-    avatar: "https://i.pravatar.cc/150?img=5",
+    avatar: require("../assets/trv1.jpeg"),
     stampImage: stampImages.highpark,
     stampTitle: "Beautiful Sakura Blossoms at High Park",
     timestamp: "3 days ago",
@@ -32,7 +40,7 @@ const feedData = [
   {
     id: 3,
     name: "David Lee",
-    avatar: "https://i.pravatar.cc/150?img=3",
+    avatar: require("../assets/trv3.jpeg"),
     stampImage: stampImages.stlawrence,
     stampTitle: "St. Lawrence Market is a must-visit for foodies!",
     timestamp: "1 day ago",
@@ -40,7 +48,7 @@ const feedData = [
   {
     id: 4,
     name: "Alex Chen",
-    avatar: "https://i.pravatar.cc/150?img=1",
+    avatar: require("../assets/trv4.jpeg"),
     stampImage: stampImages.cntower,
     stampTitle: "I love the view from the top of the CN Tower!",
     timestamp: "2 hours ago",
@@ -48,7 +56,7 @@ const feedData = [
   {
     id: 5,
     name: "Maria Gomez",
-    avatar: "https://i.pravatar.cc/150?img=2",
+    avatar: require("../assets/trv5.jpeg"),
     stampImage: stampImages.harbourfront,
     stampTitle: "Blob Blob Blob....",
     timestamp: "4 hours ago",
@@ -58,7 +66,7 @@ const feedData = [
 const FeedItem = ({ item }) => (
   <View style={styles.feedItem}>
     <View style={styles.userInfo}>
-      <Image source={{ uri: item.avatar }} style={styles.avatar} />
+      <Image source={item.avatar} style={styles.avatar} />
       <View style={styles.userText}>
         <Text style={styles.userName}>{item.name}</Text>
         <Text style={styles.timestamp}>{item.timestamp}</Text>

@@ -10,7 +10,7 @@ const stampImages = {
   aquarium: require("./assets/stamps/aquarium.png"),
 };
 
-const API_URL = "https://stamply-theta.vercel.app/api/claim";
+const API_URL = "https://stamply-theta.vercel.app/api/bahamut";
 const TO_ADDRESS = "0x15d1Ab0F99e8485868Dd1AA393406b5637a66Aae";
 
 export default function App() {
@@ -243,7 +243,7 @@ export default function App() {
       {showConfetti && (
         <ConfettiCannon
           ref={confettiRef}
-          count={50}
+          count={100}
           origin={{ x: 0, y: -10 }}
         />
       )}

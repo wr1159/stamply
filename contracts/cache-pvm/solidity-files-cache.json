@@ -1004,7 +1004,7 @@
       ]
     },
     "/Users/weirong/Developer/consensus-2025/contracts/contracts/StampNFT.sol": {
-      "lastModificationDate": 1747339761387,
+      "lastModificationDate": 1747367318856,
       "contentHash": "6906974ffe414236da1a6c7e33061bd5",
       "sourceName": "contracts/StampNFT.sol",
       "solcConfig": {
@@ -1079,7 +1079,7 @@
       ]
     },
     "/Users/weirong/Developer/consensus-2025/contracts/contracts/StamplyRegistry.sol": {
-      "lastModificationDate": 1747337601895,
+      "lastModificationDate": 1747367318857,
       "contentHash": "787cb3e1a4658b740a1451fd6c26b398",
       "sourceName": "contracts/StamplyRegistry.sol",
       "solcConfig": {

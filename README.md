@@ -1,7 +1,7 @@
-## Stamply — "collect the world, one tap at a time"
+## Sutanpu — "collect the world, one tap at a time"
 
-Stamply turns any NFC sticker at a landmark into a *free* on-chain "stamp".  
-Users open the Stamply mobile app, tap a plaque, and an NFT for that place lands in their wallet in ~6 s — **with zero gas paid by the user**.  
+Sutanpu turns any NFC sticker at a landmark into a *free* on-chain "stamp".  
+Users open the Sutanpu mobile app, tap a plaque, and an NFT for that place lands in their wallet in ~6 s — **with zero gas paid by the user**.  
 All contracts live on **Polkadot Hub's native EVM** AND **Bahamut Horizon Testnet** AND **BaseSepolia** (With ForteRuleEngine), the backend sponsors fees, and the app is built with **Expo + React-Native NFC**.
 No Gas from the user — perfect for first-time visitors.
 
@@ -60,7 +60,7 @@ All tasks are scripted in **Hardhat** (`npx hardhat run scripts/deploy-registry.
 
 ### 🎮 Forte Rules Engine (`/contracts-fre`)
 
-* **Smart Policies** extend Stamply with configurable rules without changing the core contracts.
+* **Smart Policies** extend Sutanpu with configurable rules without changing the core contracts.
 * Key features enabled by the Forte Rules Engine:
   * **Daily Claim Limits**: Caps claims at 500 per day to prevent spam and exploitation.
   * **Milestone Celebrations**: Special events triggered at visitor milestones (e.g., 100th visitor).

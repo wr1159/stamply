@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 // EDIT these values as needed:
-const STAMP_ADDRESS = "0x66b7a4AE4dAfAc28D852ea1f7E5B6C470330FD0D";
+const STAMP_ADDRESS = "0xbf41Cc7AA17b40F453bb4375b0f7b172A99F0Cd7";
 const RECIPIENT = "0x12Ede541Bcf2BaA4b8865378fF4ceb3C8e39970b";
 
 async function main() {

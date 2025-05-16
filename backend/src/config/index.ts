@@ -16,7 +16,7 @@ export const config = {
             "0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4",
         stamp:
             process.env.POLKADOT_ADDRESS ||
-            "0x66b7a4AE4dAfAc28D852ea1f7E5B6C470330FD0D",
+            "0xbf41Cc7AA17b40F453bb4375b0f7b172A99F0Cd7",
     },
 
     // Private key for the hot wallet

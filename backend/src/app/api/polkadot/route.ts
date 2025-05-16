@@ -52,8 +52,8 @@ export async function POST(request: NextRequest) {
         // Simulate the transaction to check if it would succeed
         const { request: simulateRequest } =
             await publicClient.simulateContract({
-                // address: config.contracts.stamp as `0x${string}`,
-                address: "0x66b7a4AE4dAfAc28D852ea1f7E5B6C470330FD0D",
+                address: config.contracts.stamp as `0x${string}`,
+                // address: "0xbf41Cc7AA17b40F453bb4375b0f7b172A99F0Cd7",
                 abi: stampNFTAbi,
                 functionName: "mint",
                 args: [toAddress as `0x${string}`],

@@ -1,13 +1,9 @@
 
-
-
 ## Sutanpu — "collect the world, one tap at a time"
 
-
-Sutanpu turns any NFC sticker at a landmark into a *free* on-chain "stamp".  
-Users open the Sutanpu mobile app, tap a plaque, and an NFT for that place lands in their wallet in ~6 s — **with zero gas paid by the user**.  
+Sutanpu turns any landmark into a *free* on-chain "stamp" with an NFC sticker.
+Users open the Sutanpu mobile app, tap a plaque, and an NFT for that place lands in their wallet in ~6 s — **with zero gas paid by the user**.  Making it perfect for onboarding users.
 All contracts live on **Polkadot Hub's native EVM** AND **Bahamut Horizon Testnet** AND **BaseSepolia** (With ForteRuleEngine), the backend sponsors fees, and the app is built with **Expo + React-Native NFC**.
-No Gas from the user — perfect for first-time visitors.
 
 ---
 <img src="https://github.com/user-attachments/assets/524545ea-5c96-402c-9f2d-f666d9d3b215" width="300" />
@@ -26,7 +22,7 @@ BaseSepolia PolciyId: `78`
 ### 🗂 Monorepo structure
 
 ```
-stamply/
+sutanpu/
 │
 ├─ contract/         # Solidity + Hardhat for Polkadot Hub
 │   ├─ contracts/

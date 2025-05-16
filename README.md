@@ -10,6 +10,7 @@ All contracts live on **Polkadot Hub's native EVM** AND **Bahamut Horizon Testne
 [Youtube Demo](https://youtu.be/x-gUh5T-BKQ?si=QSjDMqlwTjTuy33b&t=184Q)
 
 [Tourism Dashboard Page](https://stamply-theta.vercel.app/)
+
 ---
 
 <img src="https://github.com/user-attachments/assets/524545ea-5c96-402c-9f2d-f666d9d3b215" width="300" />

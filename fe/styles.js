@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
   },
   stampImage: {
     width: "100%",
-    height: 180,
+    height: 350,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },

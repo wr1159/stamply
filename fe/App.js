@@ -1,8 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { Text, View, ScrollView, Image } from "react-native";
 import { useState, useEffect } from "react";
-import NfcManager, { NfcTech, NfcEvents } from "react-native-nfc-manager";
+import NfcManager, { NfcTech, NfcEvents, Ndef } from "react-native-nfc-manager";
 import { styles } from "./styles";
+
+const stampImages = {
+  cntower: require("./assets/stamps/cntower.png"),
+  aquarium: require("./assets/stamps/aquarium.png"),
+};
 
 export default function App() {
   const [hasNfc, setHasNfc] = useState(null);
@@ -20,10 +25,32 @@ export default function App() {
     };
     checkNfc();
 
-    return () => {
-      NfcManager.cancelTechnologyRequest();
-    };
+    // return () => {
+    //   NfcManager.cancelTechnologyRequest();
+    // };
   }, []);
+
+  const getStampTitle = (stampLocation) => {
+    switch (stampLocation) {
+      case "cntower":
+        return "Toronto's CN Tower";
+      case "aquarium":
+        return "Ripley's Aquarium of Canada";
+      default:
+        return "Unknown Location";
+    }
+  };
+
+  const getStampImage = (stampLocation) => {
+    switch (stampLocation) {
+      case "cntower":
+        return stampImages.cntower;
+      case "aquarium":
+        return stampImages.aquarium;
+      default:
+        return "";
+    }
+  };
 
   const startNfcScan = async () => {
     if (isScanning) return;
@@ -36,19 +63,34 @@ export default function App() {
 
       if (tag) {
         // Add new stamp to collection
-        const newStamp = {
-          id: Date.now(),
-          location: tag.ndefMessage?.[0]?.payload
-            ? String.fromCharCode.apply(
-                null,
-                tag.ndefMessage[0].payload.slice(3)
-              )
-            : "Unknown Location",
-          date: new Date().toLocaleDateString(),
-          image: "https://picsum.photos/200/200", // Placeholder image
-        };
+        const stampLocation = Ndef.text.decodePayload(
+          tag.ndefMessage[0].payload
+        );
+        console.log("Location:", stampLocation);
 
-        setCollectedStamps((prev) => [...prev, newStamp]);
+        setCollectedStamps((prevStamps) => {
+          // Check for duplicates using the previous state
+          const isDuplicate = prevStamps.some(
+            (stamp) => stamp.title === stampLocation
+          );
+
+          if (isDuplicate) {
+            console.log("Stamp already collected!");
+            return prevStamps; // Return unchanged state if duplicate
+          }
+
+          const newStamp = {
+            id: Date.now(),
+            title: stampLocation,
+            location: getStampTitle(stampLocation),
+            date: new Date().toLocaleDateString(),
+            image: getStampImage(stampLocation),
+          };
+
+          const updatedStamps = [...prevStamps, newStamp];
+          console.log("Updated collection:", updatedStamps);
+          return updatedStamps;
+        });
       }
     } catch (ex) {
       // Silently handle the error - no need to log it
@@ -62,23 +104,23 @@ export default function App() {
     }
   };
 
-  if (hasNfc === null) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.scanningText}>Checking NFC availability...</Text>
-      </View>
-    );
-  }
+  // if (hasNfc === null) {
+  //   return (
+  //     <View style={styles.container}>
+  //       <Text style={styles.scanningText}>Checking NFC availability...</Text>
+  //     </View>
+  //   );
+  // }
 
-  if (hasNfc === false) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.errorText}>
-          NFC is not supported on this device
-        </Text>
-      </View>
-    );
-  }
+  // if (hasNfc === false) {
+  //   return (
+  //     <View style={styles.container}>
+  //       <Text style={styles.errorText}>
+  //         NFC is not supported on this device
+  //       </Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <View style={styles.container}>
@@ -106,7 +148,7 @@ export default function App() {
         ) : (
           collectedStamps.map((stamp) => (
             <View key={stamp.id} style={styles.stampCard}>
-              <Image source={{ uri: stamp.image }} style={styles.stampImage} />
+              <Image source={stamp.image} style={styles.stampImage} />
               <View style={styles.stampInfo}>
                 <Text style={styles.stampLocation}>{stamp.location}</Text>
                 <Text style={styles.stampDate}>{stamp.date}</Text>

@@ -21,6 +21,7 @@ export default function App() {
   const [newStampId, setNewStampId] = useState(null);
   const confettiRef = useRef(null);
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const scrollViewRef = useRef(null);
 
   const sendStampToServer = async (stamp) => {
     console.log("Sending stamp to server:", stamp.title);
@@ -112,6 +113,15 @@ export default function App() {
     }
   };
 
+  const scrollToNewStamp = () => {
+    if (scrollViewRef.current) {
+      // Add a small delay to ensure the new stamp is rendered
+      setTimeout(() => {
+        scrollViewRef.current.scrollToEnd({ animated: true });
+      }, 100);
+    }
+  };
+
   const startNfcScan = async () => {
     if (isScanning) return;
 
@@ -156,6 +166,8 @@ export default function App() {
 
           // Send the new stamp to the server
           sendStampToServer(newStamp);
+          // Scroll to the new stamp
+          scrollToNewStamp();
 
           return updatedStamps;
         });
@@ -197,6 +209,7 @@ export default function App() {
           </View>
         ) : (
           <ScrollView
+            ref={scrollViewRef}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.stampsScrollView}

@@ -21,7 +21,7 @@
     {
       "condition": "totalStampsClaimed == 100",
       "positiveEffects": [
-        "emit 100th Stamp Claimed",
+        "emit 100th",
         "TRU:totalStampsClaimed += 1"
       ],
       "negativeEffects": [
@@ -43,10 +43,10 @@
       "encodedValues": "bytes32 nfcId, address to"
     },
     {
-      "condition": "TR:dailyClaimCounter > 500",
+      "condition": "TRU:dailyClaimCounter > 500",
       "positiveEffects": [
         "emit DailyLimitReached",
-        "revert(\"Daily claim limit reached for this landmark\")"
+        "revert(\"Daily Claim\")"
       ],
       "negativeEffects": [
         "TRU:dailyClaimCounter += 1"

@@ -2,9 +2,17 @@
 
 Stamply turns any NFC sticker at a landmark into a *free* on-chain "stamp".  
 Users open the Stamply mobile app, tap a plaque, and an NFT for that place lands in their wallet in ~6 s — **with zero gas paid by the user**.  
-All contracts live on **Polkadot Hub's native EVM** AND **Bahamut Horizon Testnet**, the backend sponsors fees, and the app is built with **Expo + React-Native NFC**.
-No DOT required from the user — perfect for first-time visitors.
+All contracts live on **Polkadot Hub's native EVM** AND **Bahamut Horizon Testnet** AND **BaseSepolia** (With ForteRuleEngine), the backend sponsors fees, and the app is built with **Expo + React-Native NFC**.
+No Gas from the user — perfect for first-time visitors.
 
+---
+
+### Addreses
+
+PolkadotHub Contract: `0x66b7a4AE4dAfAc28D852ea1f7E5B6C470330FD0D`
+BahamutHorizon Contract: `0x478e6ebb4d015aa9bf4063b4d499ad1db58483b4`
+BaseSepolia Address: `0x4E448907B4B8d5949D4A6C67f34419dBb29690bD`
+BaseSepolia PolciyId: `78`
 ---
 
 ### 🗂 Monorepo structure

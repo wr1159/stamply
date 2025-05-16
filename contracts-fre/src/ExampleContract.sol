@@ -8,11 +8,7 @@ import "./RulesEngineIntegration.sol";
  */
 
 contract ExampleContract is RulesEngineClientCustom {
-    function transfer(
-        address to,
-        uint256 value
-    ) public checkRulesBeforetransfer(to, value) returns (bool) {
+    function transfer(address to, uint256 value) public {
         // this function is purposefully empty
-        return true;
     }
 }
